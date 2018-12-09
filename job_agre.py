@@ -1,14 +1,15 @@
 import requests
 from pprint import pprint
 
-# ()->full_req
+
 def get_full_jobs_json(lang, with_salary):
+    # ()->full_req
     vacs = get_hh_vac_json(lang, with_salary=with_salary)
 #    print("vacs len - {}".format(len(vacs["items"])))
     pages = vacs["pages"]
-    for page in range(1,pages):
+    for page in range(1, pages):
         print("\tpage {} loading".format(page))
-        vacs["items"]+= get_hh_vac_json(
+        vacs["items"] += get_hh_vac_json(
             lang,
             with_salary=with_salary,
             page=page
@@ -16,8 +17,9 @@ def get_full_jobs_json(lang, with_salary):
 #        print("vacs len - {}".format(len(vacs["items"])))
     return vacs
 
-# (str)->part_req
+
 def get_hh_vac_json(search_word, with_salary=False, page=0):
+    # (str)->part_req
     pay = {
         "text": "Программист " + search_word,
         "specialization": [1, 15, 12],
@@ -32,8 +34,9 @@ def get_hh_vac_json(search_word, with_salary=False, page=0):
     res = requests.get(api, params=pay)
     return res.json()
 
-# ([salaries])->[avg]
+
 def predict_rub_salary(salary_list, keep_none=False):
+    # ([salaries])->[avg]
     avgs = []
     for salary in salary_list:
         if salary["currency"] and salary["currency"] != "RUR":
@@ -69,8 +72,9 @@ def get_job_count(languges):
         print("<={} vacancies processed\n".format(lang))
     return jobs
 
-# res -> [{"from", "to", "cur", "gros"}...]
+
 def get_lang_salaries(lang=None, vacs=None):
+    # res -> [{"from", "to", "cur", "gros"}...]
     jobs = []
     if not vacs and lang:
         vacs = get_hh_vac_json(lang, salary=True)["items"]
@@ -78,7 +82,7 @@ def get_lang_salaries(lang=None, vacs=None):
         return []
     for vac in vacs:
         obj = {}
-        if not "salary" in vac:
+        if "salary" not in vac:
             continue
         if vac["salary"] and vac["salary"]["from"]:
             obj["from"] = vac["salary"]["from"]
@@ -105,7 +109,7 @@ if __name__ == "__main__":
         "python", "java", "fortran", "c#",
         "c++", "rust", "coffeescript", "js",
         "erlang", "elixir", "haskell", "scala",
-        "1c", "php", "ruby","go", "crystal"
+        "1c", "php", "ruby", "go", "crystal",
     ]
     langs2 = [
         "python", "java", "fortran", "c#",
@@ -120,4 +124,3 @@ if __name__ == "__main__":
     #    avgs = predict_rub_salary(sals, keep_none=False)
     #    print(avgs)
     print(get_job_count(langs2))
-    
