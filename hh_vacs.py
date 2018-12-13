@@ -7,7 +7,11 @@ def fetch_all_vacancies_pages(keyword=None, period=None):
     total_pages = all_pages["pages"]
     for page in range(1, total_pages):
         print("\t{} page fetching".format(page))
-        response = fetch_vacancies_page(keyword=keyword, period=period, page=page)
+        response = fetch_vacancies_page(
+            keyword=keyword,
+            period=period,
+            page=page
+        )
         all_pages["items"] += response["items"]
     return all_pages
 
@@ -34,9 +38,13 @@ def fetch_vacancies_page(
 def predict_rub_salary(vacancy):
     if "salary" not in vacancy or not vacancy["salary"]:
         return None
-    if "currency" in vacancy["salary"] and vacancy["salary"]["currency"] != "RUR":
+    if "currency" in vacancy["salary"] and /
+    vacancy["salary"]["currency"] != "RUR":
         avg = None
-    sal_from = vacancy["salary"]["from"] if "from" in vacancy["salary"] else None
+    if "from" in vacancy["salary"]:
+        sal_from = vacancy["salary"]["from"]
+    else:
+        sal_from = None
     sal_to = vacancy["salary"]["to"] if "to" in vacancy["salary"] else None
     if sal_from and sal_to:
         avg = (sal_from + sal_to) / 2
