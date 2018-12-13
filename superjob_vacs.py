@@ -82,7 +82,7 @@ def get_job_stats(pages):
         filter(
             lambda x: x is not None,
             map(
-                lambda x: predict_rub_salary_for_SuperJob(x),
+                predict_rub_salary_for_SuperJob,
                 vacs
             )
         )
