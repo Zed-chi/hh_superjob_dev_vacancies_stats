@@ -38,7 +38,7 @@ def fetch_vacancies_page(
 def predict_rub_salary(vacancy):
     if "salary" not in vacancy or not vacancy["salary"]:
         return None
-    if "currency" in vacancy["salary"] and /
+    if "currency" in vacancy["salary"] and \
     vacancy["salary"]["currency"] != "RUR":
         avg = None
     if "from" in vacancy["salary"]:
@@ -63,7 +63,7 @@ def get_job_stats(pages):
         filter(
             lambda x: x is not None,
             map(
-                lambda x: predict_rub_salary(x),
+                predict_rub_salary,
                 vacs
             )
         )
