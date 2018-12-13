@@ -6,7 +6,7 @@ def fetch_all_vacancies_pages(keyword=None, period=None):
     all_pages = fetch_vacancies_page(keyword=keyword, period=period)
     total_pages = all_pages["pages"]
     for page in range(1, total_pages):
-        print("\t{} page fetching".format(page))
+#        print("\t{} page fetching".format(page))
         response = fetch_vacancies_page(
             keyword=keyword,
             period=period,
@@ -82,14 +82,14 @@ def get_job_stats(pages):
 def get_langs_stats(langs, period):
     stats = {}
     for lang in langs:
-        print("{} pages fetching".format(lang))
+#        print("{} pages fetching".format(lang))
         lang_pages = fetch_all_vacancies_pages(
             keyword=lang,
             period=period
         )
         lang_stats = get_job_stats(lang_pages)
         stats[lang] = lang_stats
-        print("{} pages processed".format(lang))
+#        print("{} pages processed".format(lang))
     return stats
 
 

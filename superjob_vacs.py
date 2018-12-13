@@ -111,7 +111,7 @@ def get_langs_stats(langs, period):
         )
         lang_stats = get_job_stats(lang_pages)
         stats[lang] = lang_stats
-        print("{} processed".format(lang))
+#        print("{} processed".format(lang))
     return stats
 
 
