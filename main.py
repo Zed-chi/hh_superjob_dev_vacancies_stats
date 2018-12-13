@@ -4,11 +4,12 @@ from terminaltables import DoubleTable
 """https://github.com/Robpol86/terminaltables/blob/master/example1.py"""
 
 
-
 def get_table_from_stats(stats):
     data = [
-        ("Language", "Vacancies founded",
-        "Vacancies Processed", "Average salary"),
+        (
+            "Language", "Vacancies founded",
+            "Vacancies Processed", "Average salary"
+        ),
     ]
     for key in stats.keys():
         lang = [
@@ -35,7 +36,7 @@ def main():
         "|hh.ru programming vacancies statistics - Moskow|"
     )
     hhtable_instance.justify_columns[5] = "right"
-    
+
     sj_tbl = get_table_from_stats(sj_stats(langs, period))
     sjtable_instance = DoubleTable(
         sj_tbl,
