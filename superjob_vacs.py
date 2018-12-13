@@ -60,15 +60,6 @@ def predict_rub_salary_for_SuperJob(vacancy):
         avg = int(sal_to) * 0.8
     else:
         avg = None
-    """print(
-        "{}: {}-{} {}, avg-{}".format(
-            vacancy["profession"],
-            vacancy["payment_from"],
-            vacancy["payment_to"],
-            vacancy["currency"],
-            avg
-        )
-    )"""
     return avg
 
 
@@ -133,12 +124,10 @@ def main():
     ]
     load_dotenv()
     key = os.getenv("sj_secret")
-    month_ago = datetime.datetime.today() - datetime.timedelta(30)
-    period_unix = month_ago.timestamp()
-    lang_stats = get_langs_stats(langs, key, period_unix)
+    period = 7
+    lang_stats = get_langs_stats(langs, period)
     pprint(lang_stats)
 
 
 if __name__ == "__main__":
     main()
-
