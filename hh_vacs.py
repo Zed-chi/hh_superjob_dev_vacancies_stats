@@ -3,16 +3,16 @@ from pprint import pprint
 
 
 def fetch_all_vacancies_pages(keyword=None, period=None):
-    all_pages = fetch_vacancies_page(keyword=keyword, period=period)
-    total_pages = all_pages["pages"]
-    for page in range(1, total_pages):
+    vacancies = fetch_vacancies_page(keyword=keyword, period=period)
+    pages_count = vacancies["pages"]
+    for page in range(1, pages_count):
         response = fetch_vacancies_page(
             keyword=keyword,
             period=period,
             page=page
         )
-        all_pages["items"] += response["items"]
-    return all_pages
+        vacancies["items"] += response["items"]
+    return vacancies
 
 
 def fetch_vacancies_page(
@@ -56,14 +56,13 @@ def predict_rub_salary(vacancy):
     return avg
 
 
-def get_job_stats(pages):
-    vacs = pages["items"]
+def get_job_stats(vacancies):
     job_salaries = tuple(
         filter(
             lambda x: x is not None,
             map(
                 predict_rub_salary,
-                vacs
+                vacancies["items"]
             )
         )
     )
@@ -72,7 +71,7 @@ def get_job_stats(pages):
     else:
         avg = 0
     stats = {}
-    stats["vacancies_found"] = pages["found"]
+    stats["vacancies_found"] = vacancies["found"]
     stats["vacancies_processed"] = len(job_salaries)
     stats["avg_salary"] = avg
     return stats
@@ -81,12 +80,12 @@ def get_job_stats(pages):
 def get_langs_stats(langs, period):
     stats = {}
     for lang in langs:
-        lang_pages = fetch_all_vacancies_pages(
+        vacancies_by_lang = fetch_all_vacancies_pages(
             keyword=lang,
             period=period
         )
-        lang_stats = get_job_stats(lang_pages)
-        stats[lang] = lang_stats
+        vacancies_stats = get_job_stats(vacancies_by_lang)
+        stats[lang] = vacancies_stats
     return stats
 
 
