@@ -35,13 +35,13 @@ def fetch_vacancies_page(
 
 
 def predict_rub_salary(vacancy):
-    if "salary" not in vacancy or not vacancy["salary"]:
+    salary = vacancy.get("salary")
+    if not salary:
         return None
-    salary = vacancy["salary"]
     if "currency" in salary and salary["currency"] != "RUR":
         return None
-    sal_from = salary["from"] if "from" in salary else None
-    sal_to = salary["to"] if "to" in salary else None
+    sal_from = salary.get("from")
+    sal_to = salary.get("to")
     if sal_from and sal_to:
         avg = (sal_from + sal_to) / 2
     elif sal_from:
