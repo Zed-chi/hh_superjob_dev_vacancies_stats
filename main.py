@@ -1,7 +1,6 @@
 from hh_vacs import get_langs_stats as hh_stats
 from superjob_vacs import get_langs_stats as sj_stats
 from terminaltables import DoubleTable
-"""https://github.com/Robpol86/terminaltables/blob/master/example1.py"""
 
 
 def get_table_from_stats(stats):
