@@ -56,7 +56,7 @@ def predict_rub_salary(vacancy):
     return avg
 
 
-def get_job_stats(vacancies):
+def get_vacancies_stats(vacancies):
     job_salaries = tuple(
         filter(
             lambda x: x is not None,
@@ -84,7 +84,7 @@ def get_langs_stats(langs, period):
             keyword=lang,
             period=period
         )
-        vacancies_stats = get_job_stats(vacancies_by_lang)
+        vacancies_stats = get_vacancies_stats(vacancies_by_lang)
         stats[lang] = vacancies_stats
     return stats
 

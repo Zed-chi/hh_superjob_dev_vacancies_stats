@@ -64,26 +64,25 @@ def predict_rub_salary_for_SuperJob(vacancy):
 
 
 def fetch_all_vacancies_pages(keyword=None, secret=None, period=None):
-    all_pages = fetch_vacancies_page(
+    vacancies = fetch_vacancies_page(
         keyword=keyword,
         secret=secret,
         period=period,
     )
-    total_pages = int(all_pages["total"]) // 20
-    for page in range(1, total_pages):
+    pages_count = int(vacancies["total"]) // 20
+    for page in range(1, pages_count):
         response = fetch_vacancies_page(keyword, secret, period, page=page)
-        all_pages["objects"] += response["objects"]
-    return all_pages
+        vacancies["objects"] += response["objects"]
+    return vacancies
 
 
-def get_job_stats(pages):
-    vacs = pages["objects"]
+def get_vacancies_stats(vacancies):
     job_salaries = tuple(
         filter(
             lambda x: x is not None,
             map(
                 predict_rub_salary_for_SuperJob,
-                vacs
+                vacancies["objects"]
             )
         )
     )
@@ -92,7 +91,7 @@ def get_job_stats(pages):
     else:
         avg = 0
     stats = {}
-    stats["vacancies_found"] = pages["total"]
+    stats["vacancies_found"] = vacancies["total"]
     stats["vacancies_processed"] = len(job_salaries)
     stats["avg_salary"] = avg
     return stats
@@ -104,13 +103,13 @@ def get_langs_stats(langs, period):
     period = (datetime.datetime.today() - datetime.timedelta(period)).timestamp()
     stats = {}
     for lang in langs:
-        lang_pages = fetch_all_vacancies_pages(
+        vacancies_by_lang = fetch_all_vacancies_pages(
             keyword=lang,
             secret=secret,
             period=period
         )
-        lang_stats = get_job_stats(lang_pages)
-        stats[lang] = lang_stats
+        vacancies_stats = get_vacancies_stats(vacancies_by_lang)
+        stats[lang] = vacancies_stats
     return stats
 
 
@@ -123,7 +122,7 @@ def main():
     ]
     load_dotenv()
     key = os.getenv("sj_secret")
-    period = 7
+    period = 1
     lang_stats = get_langs_stats(langs, period)
     pprint(lang_stats)
 
