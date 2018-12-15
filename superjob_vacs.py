@@ -37,14 +37,11 @@ def get_token():
         "client_secret": os.getenv("sj_secret"),
     }
     res = requests.get(auth_api, params=payload)
-    if res.ok:
-        return res.json()["access_token"]
-    else:
-        return None
+    return res.json()["access_token"]
 
 
 def predict_rub_salary_for_SuperJob(vacancy):
-    if "currency" in vacancy and vacancy["currency"] is not "rub":
+    if "currency" in vacancy and vacancy["currency"] != "rub":
         return None
     sal_from = vacancy.get("payment_from")
     sal_to = vacancy.get("payment_to")
@@ -110,7 +107,7 @@ def main():
     ]
     load_dotenv()
     key = os.getenv("sj_secret")
-    period = 1
+    period = 20
     lang_stats = get_langs_stats(langs, period)
     pprint(lang_stats)
 

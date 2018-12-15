@@ -28,7 +28,7 @@ def main():
         "erlang", "elixir", "haskell", "scala",
         "1c", "php", "ruby", "go", "crystal",
     ]
-    period = 7
+    period = 30
     hh_tbl = get_table_from_stats(hh_stats(langs, period))
     hhtable_instance = DoubleTable(
         hh_tbl,
