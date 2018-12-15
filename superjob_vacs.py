@@ -25,11 +25,7 @@ def fetch_vacancies_page(
         "page": page,
     }
     res = requests.get(vacancies_api, headers=headers, params=params)
-    if res.ok:
-        return res.json()
-    else:
-        print(res.text)
-        return None
+    return res.json()
 
 
 def get_token():
@@ -44,7 +40,6 @@ def get_token():
     if res.ok:
         return res.json()["access_token"]
     else:
-        print(res.text)
         return None
 
 
