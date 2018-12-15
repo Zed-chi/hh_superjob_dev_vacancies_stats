@@ -1,5 +1,6 @@
 import requests
 from pprint import pprint
+from utils import get_average_salary
 
 
 def fetch_all_vacancies_pages(keyword=None, period=None):
@@ -42,15 +43,7 @@ def predict_rub_salary(vacancy):
         return None
     sal_from = salary.get("from")
     sal_to = salary.get("to")
-    if sal_from and sal_to:
-        avg = (sal_from + sal_to) / 2
-    elif sal_from:
-        avg = (sal_from) * 1.2
-    elif sal_to:
-        avg = int(sal_to) * 0.8
-    else:
-        avg = None
-    return avg
+    return get_average_salary(sal_from, sal_to)
 
 
 def get_vacancies_stats(vacancies):

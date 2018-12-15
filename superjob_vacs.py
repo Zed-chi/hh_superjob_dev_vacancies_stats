@@ -3,6 +3,7 @@ import os
 import datetime
 from dotenv import load_dotenv
 from pprint import pprint
+from utils import get_average_salary
 
 
 def fetch_vacancies_page(
@@ -52,15 +53,7 @@ def predict_rub_salary_for_SuperJob(vacancy):
         return None
     sal_from = vacancy.get("payment_from")
     sal_to = vacancy.get("payment_to")
-    if sal_from and sal_to:
-        avg = (sal_from + sal_to) / 2
-    elif sal_from:
-        avg = (sal_from) * 1.2
-    elif sal_to:
-        avg = int(sal_to) * 0.8
-    else:
-        avg = None
-    return avg
+    return get_average_salary(sal_from, sal_to)
 
 
 def fetch_all_vacancies_pages(keyword=None, secret=None, period=None):
