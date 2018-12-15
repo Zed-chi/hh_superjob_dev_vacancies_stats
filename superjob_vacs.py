@@ -49,7 +49,7 @@ def get_token():
 
 def predict_rub_salary_for_SuperJob(vacancy):
     if "currency" in vacancy and vacancy["currency"] is not "rub":
-        avg = None
+        return None
     sal_from = vacancy["payment_from"] if "payment_from" in vacancy else None
     sal_to = vacancy["payment_to"] if "payment_to" in vacancy else None
     if sal_from and sal_to:

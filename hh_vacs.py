@@ -37,14 +37,11 @@ def fetch_vacancies_page(
 def predict_rub_salary(vacancy):
     if "salary" not in vacancy or not vacancy["salary"]:
         return None
-    if "currency" in vacancy["salary"] and \
-    vacancy["salary"]["currency"] != "RUR":
-        avg = None
-    if "from" in vacancy["salary"]:
-        sal_from = vacancy["salary"]["from"]
-    else:
-        sal_from = None
-    sal_to = vacancy["salary"]["to"] if "to" in vacancy["salary"] else None
+    salary = vacancy["salary"]
+    if "currency" in salary and salary["currency"] != "RUR":
+        return None
+    sal_from = salary["from"] if "from" in salary else None
+    sal_to = salary["to"] if "to" in salary else None
     if sal_from and sal_to:
         avg = (sal_from + sal_to) / 2
     elif sal_from:
@@ -97,7 +94,7 @@ if __name__ == "__main__":
         "1c", "php", "ruby", "go", "crystal",
     ]
     langs2 = [
-        "python", "java", "fortran", "c#",
+        "python",
     ]
     period = 1
     pprint(get_langs_stats(langs2, period))
